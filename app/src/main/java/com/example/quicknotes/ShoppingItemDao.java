@@ -19,7 +19,7 @@ public interface ShoppingItemDao {
     @Delete
     void delete(ShoppingItem item);
 
-    @Query("SELECT * FROM shopping_items ORDER BY isChecked ASC, createdAt DESC")
+    @Query("SELECT * FROM shopping_items ORDER BY createdAt ASC")
     List<ShoppingItem> getAll();
 
     @Query("DELETE FROM shopping_items WHERE isChecked = 1")
@@ -27,4 +27,13 @@ public interface ShoppingItemDao {
 
     @Query("DELETE FROM shopping_items")
     void deleteAll();
+
+    @Query("SELECT COUNT(*) FROM shopping_items")
+    int getCount();
+
+    @Query("SELECT COUNT(*) FROM shopping_items WHERE isChecked = 0")
+    int getUncheckedCount();
+
+    @Query("SELECT MAX(createdAt) FROM shopping_items")
+    long getLastModified();
 }

@@ -212,13 +212,15 @@ public class NoteDatabaseTest {
     }
 
     @Test
-    public void shoppingItem_uncheckedBeforeChecked() {
-        ShoppingItem checked = new ShoppingItem("Done", 1000L);
-        checked.setChecked(true);
-        shoppingDao.insert(checked);
-        shoppingDao.insert(new ShoppingItem("Todo", 1001L));
+    public void shoppingItem_orderedByCreatedAt() {
+        ShoppingItem first = new ShoppingItem("First", 1000L);
+        first.setChecked(true);
+        shoppingDao.insert(first);
+        shoppingDao.insert(new ShoppingItem("Second", 1001L));
 
         List<ShoppingItem> items = shoppingDao.getAll();
-        assertFalse(items.get(0).isChecked()); // unchecked first
+        // Ordered by createdAt ASC: first inserted item comes first regardless of checked state
+        assertEquals("First", items.get(0).getText());
+        assertEquals("Second", items.get(1).getText());
     }
 }

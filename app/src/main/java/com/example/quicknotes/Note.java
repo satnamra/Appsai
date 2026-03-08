@@ -14,6 +14,9 @@ public class Note {
     private boolean isFavorite;
     private long reminderTime; // 0 = no reminder
     private String tags = "";
+    private boolean isPinned;
+    private boolean isLocked;
+    private String lockPin;
 
     public Note(String title, String content, long timestamp) {
         this.title = title;
@@ -40,4 +43,10 @@ public class Note {
     public void setReminderTime(long reminderTime) { this.reminderTime = reminderTime; }
     public String getTags() { return tags != null ? tags : ""; }
     public void setTags(String tags) { this.tags = tags != null ? tags : ""; }
+    public boolean isPinned() { return isPinned; }
+    public void setPinned(boolean pinned) { this.isPinned = pinned; }
+    public boolean isLocked() { return isLocked; }
+    public void setLocked(boolean locked) { this.isLocked = locked; }
+    public String getLockPin() { return lockPin != null ? lockPin : ""; }
+    public void setLockPin(String lockPin) { this.lockPin = lockPin; }
 }

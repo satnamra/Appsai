@@ -73,6 +73,34 @@
                     android:text="📜  Sepia"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
+                <RadioButton
+                    android:id="@+id/themeSteel"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="⚙️  Steel (Dark Blue / Men)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <RadioButton
+                    android:id="@+id/themeRose"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="🌹  Rose (Soft Pink / Women)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <RadioButton
+                    android:id="@+id/themeBubblegum"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="🍬  Bubblegum (Bright Pink / Girls)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+                <RadioButton
+                    android:id="@+id/themeOcean"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="🌊  Ocean (Teal Blue / Boys)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
             </RadioGroup>
 
             <!-- Divider -->
@@ -115,6 +143,28 @@
                 android:layout_marginTop="8dp"
                 android:text="Remove Background"
                 app:cornerRadius="26dp" />
+
+            <!-- Backup & Restore -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:layout_marginVertical="16dp" android:background="?attr/colorOutlineVariant"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Backup &amp; Restore"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginBottom="12dp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/exportBtn"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent" android:layout_height="52dp"
+                android:layout_marginBottom="8dp"
+                android:text="Export Notes (JSON)"
+                app:cornerRadius="26dp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/importBtn"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent" android:layout_height="52dp"
+                android:text="Import Notes (JSON)"
+                app:cornerRadius="26dp"/>
 
         </LinearLayout>
 

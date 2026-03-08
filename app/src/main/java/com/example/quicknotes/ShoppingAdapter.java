@@ -47,6 +47,9 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             : h.checkBox.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
         h.checkBox.setOnCheckedChangeListener(null);
         h.checkBox.setOnCheckedChangeListener((b, checked) -> {
+            b.setPaintFlags(checked
+                ? b.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG
+                : b.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
             if (listener != null) listener.onChecked(item, checked);
         });
         h.deleteBtn.setOnClickListener(v -> {

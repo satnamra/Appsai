@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:paddingHorizontal="24dp"
     android:paddingTop="8dp"
-    android:paddingBottom="32dp">
+    android:paddingBottom="32dp"
+    android:background="?attr/colorSurfaceContainerLow">
 
     <!-- Handle bar -->
     <View
@@ -35,8 +36,8 @@
         android:layout_marginBottom="12dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1.5dp"
-        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardBackgroundColor="?attr/colorPrimaryContainer"
+        app:strokeWidth="0dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground">
@@ -68,14 +69,15 @@
                     android:layout_height="wrap_content"
                     android:text="Note"
                     android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorOnPrimaryContainer" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Text, ideas, thoughts"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:alpha="0.7" />
 
             </LinearLayout>
 
@@ -90,8 +92,8 @@
         android:layout_height="80dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1.5dp"
-        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardBackgroundColor="?attr/colorSecondaryContainer"
+        app:strokeWidth="0dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground">
@@ -123,19 +125,50 @@
                     android:layout_height="wrap_content"
                     android:text="Shopping List"
                     android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorOnSecondaryContainer" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Items with voice input"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:textColor="?attr/colorOnSecondaryContainer"
+                    android:alpha="0.7" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTemplate"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="?attr/colorTertiaryContainer"
+        app:strokeWidth="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="20dp">
+            <TextView android:layout_width="44dp" android:layout_height="44dp" android:text="📋"
+                android:textSize="26sp" android:gravity="center" android:layout_marginEnd="16dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="From Template"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="?attr/colorOnTertiaryContainer"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Meeting, Journal, Todo, Brainstorm"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnTertiaryContainer"
+                    android:alpha="0.7"/>
+            </LinearLayout>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

@@ -31,6 +31,33 @@
             android:layout_marginVertical="4dp"
             android:layout_marginStart="4dp" />
 
+        <!-- Pin indicator -->
+        <TextView
+            android:id="@+id/pinIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📌"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Lock indicator -->
+        <ImageView
+            android:id="@+id/lockIndicator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_lock"
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:alpha="0.7"
+            android:visibility="gone"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <!-- Main Content Container with Glassmorphism -->
         <LinearLayout
             android:layout_width="0dp"

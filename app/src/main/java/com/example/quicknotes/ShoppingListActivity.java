@@ -55,10 +55,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             @Override
             public void onChecked(ShoppingItem item, boolean checked) {
                 item.setChecked(checked);
-                Executors.newSingleThreadExecutor().execute(() -> {
-                    dao.update(item);
-                    runOnUiThread(() -> loadItems());
-                });
+                Executors.newSingleThreadExecutor().execute(() -> dao.update(item));
             }
             @Override
             public void onDelete(ShoppingItem item) {

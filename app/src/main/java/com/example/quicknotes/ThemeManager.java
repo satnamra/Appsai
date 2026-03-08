@@ -16,6 +16,10 @@ public class ThemeManager {
     public static final int THEME_DARK = 1;
     public static final int THEME_AMOLED = 2;
     public static final int THEME_SEPIA = 3;
+    public static final int THEME_STEEL = 4;
+    public static final int THEME_ROSE = 5;
+    public static final int THEME_BUBBLEGUM = 6;
+    public static final int THEME_OCEAN = 7;
 
     /** Call BEFORE super.onCreate() in each Activity */
     public static void apply(Activity activity) {
@@ -31,6 +35,22 @@ public class ThemeManager {
             case THEME_SEPIA:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 activity.setTheme(R.style.Theme_QuickNotes_Sepia);
+                break;
+            case THEME_STEEL:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                activity.setTheme(R.style.Theme_QuickNotes_Steel);
+                break;
+            case THEME_ROSE:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                activity.setTheme(R.style.Theme_QuickNotes_Rose);
+                break;
+            case THEME_BUBBLEGUM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                activity.setTheme(R.style.Theme_QuickNotes_Bubblegum);
+                break;
+            case THEME_OCEAN:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                activity.setTheme(R.style.Theme_QuickNotes_Ocean);
                 break;
             default:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

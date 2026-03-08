@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="32dp"
+    android:background="?attr/colorSurfaceContainerLow">
+
+    <View android:layout_width="40dp" android:layout_height="4dp"
+        android:layout_gravity="center_horizontal" android:layout_marginBottom="20dp"
+        android:background="?attr/colorOnSurfaceVariant" android:alpha="0.4"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Choose Template" android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="?attr/colorOnSurface" android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.card.MaterialCardView android:id="@+id/templateMeeting"
+        android:layout_width="match_parent" android:layout_height="72dp"
+        android:layout_marginBottom="10dp" app:cardCornerRadius="14dp" app:cardElevation="0dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHighest"
+        android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="16dp">
+            <TextView android:layout_width="44dp" android:layout_height="44dp" android:text="📋"
+                android:textSize="24sp" android:gravity="center" android:layout_marginEnd="14dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Meeting Notes" android:textAppearance="@style/TextAppearance.Material3.TitleSmall" android:textColor="?attr/colorOnSurface"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Agenda, attendees, actions" android:textAppearance="@style/TextAppearance.Material3.BodySmall" android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView android:id="@+id/templateJournal"
+        android:layout_width="match_parent" android:layout_height="72dp"
+        android:layout_marginBottom="10dp" app:cardCornerRadius="14dp" app:cardElevation="0dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHighest"
+        android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="16dp">
+            <TextView android:layout_width="44dp" android:layout_height="44dp" android:text="📔"
+                android:textSize="24sp" android:gravity="center" android:layout_marginEnd="14dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Daily Journal" android:textAppearance="@style/TextAppearance.Material3.TitleSmall" android:textColor="?attr/colorOnSurface"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Mood, highlights, gratitude" android:textAppearance="@style/TextAppearance.Material3.BodySmall" android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView android:id="@+id/templateTodo"
+        android:layout_width="match_parent" android:layout_height="72dp"
+        android:layout_marginBottom="10dp" app:cardCornerRadius="14dp" app:cardElevation="0dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHighest"
+        android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="16dp">
+            <TextView android:layout_width="44dp" android:layout_height="44dp" android:text="✅"
+                android:textSize="24sp" android:gravity="center" android:layout_marginEnd="14dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Todo List" android:textAppearance="@style/TextAppearance.Material3.TitleSmall" android:textColor="?attr/colorOnSurface"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Tasks with checkboxes" android:textAppearance="@style/TextAppearance.Material3.BodySmall" android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView android:id="@+id/templateBrainstorm"
+        android:layout_width="match_parent" android:layout_height="72dp"
+        app:cardCornerRadius="14dp" app:cardElevation="0dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHighest"
+        android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="16dp">
+            <TextView android:layout_width="44dp" android:layout_height="44dp" android:text="💡"
+                android:textSize="24sp" android:gravity="center" android:layout_marginEnd="14dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Brainstorm" android:textAppearance="@style/TextAppearance.Material3.TitleSmall" android:textColor="?attr/colorOnSurface"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Ideas and next steps" android:textAppearance="@style/TextAppearance.Material3.BodySmall" android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

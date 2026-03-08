@@ -30,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:paddingTop="?attr/actionBarSize"
-        android:clipToPadding="false">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,9 +51,8 @@
                 app:boxCornerRadiusBottomEnd="16dp"
                 app:hintTextColor="?attr/colorPrimary"
                 app:boxStrokeColor="?attr/colorPrimary"
-                app:boxStrokeWidth="2dp"
-                app:boxStrokeWidthFocused="2dp"
-                android:background="@drawable/glassmorphism_bg">
+                app:boxStrokeWidth="1.5dp"
+                app:boxStrokeWidthFocused="2dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/titleEditText"
@@ -80,9 +78,8 @@
                 app:boxCornerRadiusBottomEnd="16dp"
                 app:hintTextColor="?attr/colorPrimary"
                 app:boxStrokeColor="?attr/colorPrimary"
-                app:boxStrokeWidth="2dp"
-                app:boxStrokeWidthFocused="2dp"
-                android:background="@drawable/glassmorphism_bg">
+                app:boxStrokeWidth="1.5dp"
+                app:boxStrokeWidthFocused="2dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contentEditText"
@@ -98,16 +95,99 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Character Counter -->
-            <TextView
-                android:id="@+id/characterCounter"
-                android:layout_width="wrap_content"
+            <!-- Markdown Formatting Toolbar -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_gravity="end"
-                android:text="0 / 1000"
-                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnBold"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content" android:layout_height="36dp"
+                        android:text="B" android:textStyle="bold" android:minWidth="0dp"
+                        android:paddingHorizontal="12dp" app:cornerRadius="8dp" android:layout_marginEnd="4dp"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnItalic"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content" android:layout_height="36dp"
+                        android:text="I" android:textStyle="italic" android:minWidth="0dp"
+                        android:paddingHorizontal="12dp" app:cornerRadius="8dp" android:layout_marginEnd="4dp"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnHeader"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content" android:layout_height="36dp"
+                        android:text="H1" android:minWidth="0dp"
+                        android:paddingHorizontal="12dp" app:cornerRadius="8dp" android:layout_marginEnd="4dp"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnList"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content" android:layout_height="36dp"
+                        android:text="• List" android:minWidth="0dp"
+                        android:paddingHorizontal="12dp" app:cornerRadius="8dp" android:layout_marginEnd="4dp"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnCheckbox"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content" android:layout_height="36dp"
+                        android:text="☐ Task" android:minWidth="0dp"
+                        android:paddingHorizontal="12dp" app:cornerRadius="8dp"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Character Counter + Mic row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/micButton"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Dictate"
+                    app:icon="@drawable/ic_mic"
+                    app:iconSize="18dp"
+                    app:cornerRadius="18dp"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPreview"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Preview"
+                    android:textSize="12sp"
+                    app:cornerRadius="18dp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginStart="8dp"/>
+
+                <TextView
+                    android:id="@+id/characterCounter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="0 / 1000"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+            <!-- Markdown Preview -->
+            <TextView
+                android:id="@+id/markdownPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="200dp"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface"
+                android:background="?attr/colorSurfaceVariant"/>
 
             <!-- Color Picker -->
             <TextView

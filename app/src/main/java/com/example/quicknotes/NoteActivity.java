@@ -2,6 +2,12 @@ package com.example.quicknotes;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.speech.RecognizerIntent;
+import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.tasklist.TaskListPlugin;
+import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -36,6 +42,24 @@ public class NoteActivity extends AppCompatActivity {
     private String originalTitle = "";
     private String originalContent = "";
     private MenuItem favoriteMenuItem;
+    private Markwon markwon;
+    private MenuItem pinMenuItem, lockMenuItem;
+    private android.widget.TextView markdownPreview;
+    private boolean previewMode = false;
+
+    private final ActivityResultLauncher<Intent> sttLauncher =
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                java.util.ArrayList<String> matches = result.getData()
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if (matches != null && !matches.isEmpty()) {
+                    String text = matches.get(0);
+                    int start = Math.max(contentEditText.getSelectionStart(), 0);
+                    int end = Math.max(contentEditText.getSelectionEnd(), 0);
+                    contentEditText.getText().replace(Math.min(start, end), Math.max(start, end), text);
+                }
+            }
+        });
 
     private static final int[] NOTE_COLORS = {
         0, 0xFFEF4444, 0xFFF97316, 0xFFEAB308, 0xFF22C55E, 0xFF3B82F6, 0xFFA855F7
@@ -72,14 +96,40 @@ public class NoteActivity extends AppCompatActivity {
 
         findViewById(R.id.saveButton).setOnClickListener(v -> saveNote());
         findViewById(R.id.discardButton).setOnClickListener(v -> handleBack());
+        findViewById(R.id.micButton).setOnClickListener(v -> startDictation());
+
+        // Markwon
+        markwon = Markwon.builder(this)
+            .usePlugin(TaskListPlugin.create(this))
+            .usePlugin(StrikethroughPlugin.create())
+            .build();
+
+        markdownPreview = findViewById(R.id.markdownPreview);
+
+        // Markdown formatting buttons
+        findViewById(R.id.btnBold).setOnClickListener(v -> insertMarkdown("**", "**", "bold text"));
+        findViewById(R.id.btnItalic).setOnClickListener(v -> insertMarkdown("*", "*", "italic text"));
+        findViewById(R.id.btnHeader).setOnClickListener(v -> insertMarkdownLine("## ", "Heading"));
+        findViewById(R.id.btnList).setOnClickListener(v -> insertMarkdownLine("- ", "List item"));
+        findViewById(R.id.btnCheckbox).setOnClickListener(v -> insertMarkdownLine("- [ ] ", "Task"));
+
+        // Preview toggle
+        com.google.android.material.button.MaterialButton btnPreview = findViewById(R.id.btnPreview);
+        btnPreview.setOnClickListener(v -> {
+            previewMode = !previewMode;
+            if (previewMode) {
+                markwon.setMarkdown(markdownPreview, contentEditText.getText().toString());
+                markdownPreview.setVisibility(View.VISIBLE);
+                contentEditText.setVisibility(View.GONE);
+                btnPreview.setText("Edit");
+            } else {
+                markdownPreview.setVisibility(View.GONE);
+                contentEditText.setVisibility(View.VISIBLE);
+                btnPreview.setText("Preview");
+            }
+        });
 
         setupColorPicker();
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1001);
-            }
-        }
 
         Intent intent = getIntent();
         if (intent.hasExtra("note_id")) {
@@ -98,11 +148,113 @@ public class NoteActivity extends AppCompatActivity {
                             isNewNote = false;
                             updateColorPickerSelection();
                             updateFavoriteIcon();
+                            updatePinIcon();
+                            updateLockIcon();
                         }
                     });
                 });
             }
         }
+
+        // Template pre-fill
+        if (intent.hasExtra("template_title")) {
+            titleEditText.setText(intent.getStringExtra("template_title"));
+            contentEditText.setText(intent.getStringExtra("template_content"));
+        }
+    }
+
+    private void startDictation() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, java.util.Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your note...");
+        try {
+            sttLauncher.launch(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Speech recognition not available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void insertMarkdown(String prefix, String suffix, String placeholder) {
+        int start = Math.max(contentEditText.getSelectionStart(), 0);
+        int end = Math.max(contentEditText.getSelectionEnd(), 0);
+        String selected = contentEditText.getText().subSequence(Math.min(start,end), Math.max(start,end)).toString();
+        String replacement = prefix + (selected.isEmpty() ? placeholder : selected) + suffix;
+        contentEditText.getText().replace(Math.min(start,end), Math.max(start,end), replacement);
+        if (selected.isEmpty()) {
+            int newStart = Math.min(start,end) + prefix.length();
+            contentEditText.setSelection(newStart, newStart + placeholder.length());
+        }
+    }
+
+    private void insertMarkdownLine(String prefix, String placeholder) {
+        int pos = Math.max(contentEditText.getSelectionStart(), 0);
+        String text = contentEditText.getText().toString();
+        int lineStart = text.lastIndexOf('\n', pos - 1) + 1;
+        if (!text.substring(lineStart).startsWith(prefix)) {
+            contentEditText.getText().insert(lineStart, prefix);
+        }
+    }
+
+    private void togglePin() {
+        if (isNewNote) { saveNoteAndRun(this::togglePin); return; }
+        Executors.newSingleThreadExecutor().execute(() -> {
+            currentNote.setPinned(!currentNote.isPinned());
+            noteDao.update(currentNote);
+            runOnUiThread(() -> {
+                updatePinIcon();
+                Toast.makeText(this, currentNote.isPinned() ? "Note pinned" : "Unpinned", Toast.LENGTH_SHORT).show();
+            });
+        });
+    }
+
+    private void updatePinIcon() {
+        if (pinMenuItem == null) return;
+        pinMenuItem.setTitle(currentNote != null && currentNote.isPinned() ? "Unpin" : "Pin");
+    }
+
+    private void toggleLock() {
+        if (isNewNote) { saveNoteAndRun(this::toggleLock); return; }
+        if (currentNote.isLocked()) {
+            android.widget.EditText pinInput = new android.widget.EditText(this);
+            pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            pinInput.setHint("Enter PIN to unlock");
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Unlock note").setView(pinInput)
+                .setPositiveButton("Unlock", (d, w) -> {
+                    if (pinInput.getText().toString().equals(currentNote.getLockPin())) {
+                        Executors.newSingleThreadExecutor().execute(() -> {
+                            currentNote.setLocked(false); currentNote.setLockPin("");
+                            noteDao.update(currentNote);
+                            runOnUiThread(() -> { updateLockIcon(); Toast.makeText(this, "Note unlocked", Toast.LENGTH_SHORT).show(); });
+                        });
+                    } else { Toast.makeText(this, "Wrong PIN", Toast.LENGTH_SHORT).show(); }
+                })
+                .setNegativeButton("Cancel", null).show();
+        } else {
+            android.widget.EditText pinInput = new android.widget.EditText(this);
+            pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            pinInput.setHint("Set 4-digit PIN");
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Lock note").setView(pinInput)
+                .setPositiveButton("Lock", (d, w) -> {
+                    String pin = pinInput.getText().toString();
+                    if (pin.length() < 4) { Toast.makeText(this, "PIN must be 4+ digits", Toast.LENGTH_SHORT).show(); return; }
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        currentNote.setLocked(true); currentNote.setLockPin(pin);
+                        noteDao.update(currentNote);
+                        runOnUiThread(() -> { updateLockIcon(); Toast.makeText(this, "Note locked", Toast.LENGTH_SHORT).show(); });
+                    });
+                })
+                .setNegativeButton("Cancel", null).show();
+        }
+    }
+
+    private void updateLockIcon() {
+        if (lockMenuItem == null) return;
+        boolean locked = currentNote != null && currentNote.isLocked();
+        lockMenuItem.setTitle(locked ? "Unlock" : "Lock");
+        lockMenuItem.setIcon(locked ? R.drawable.ic_lock : R.drawable.ic_lock_outline);
     }
 
     private boolean hasChanges() {
@@ -195,6 +347,12 @@ public class NoteActivity extends AppCompatActivity {
             saveNoteAndRun(() -> scheduleReminder(timeMs));
             return;
         }
+        // Request notification permission lazily (Android 13+)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU
+                && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1001);
+        }
         Executors.newSingleThreadExecutor().execute(() -> {
             currentNote.setReminderTime(timeMs);
             noteDao.update(currentNote);
@@ -220,15 +378,11 @@ public class NoteActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             Note note = new Note(title, content, System.currentTimeMillis());
             note.setColor(selectedColor);
-            noteDao.insert(note);
-            // Reload as current note
-            List<Note> all = noteDao.getAllNotes();
-            if (!all.isEmpty()) {
-                currentNote = all.get(0);
-                originalTitle = currentNote.getTitle();
-                originalContent = currentNote.getContent();
-                isNewNote = false;
-            }
+            long insertedId = noteDao.insert(note);
+            currentNote = noteDao.getNoteById((int) insertedId);
+            originalTitle = currentNote.getTitle();
+            originalContent = currentNote.getContent();
+            isNewNote = false;
             runOnUiThread(after::run);
         });
     }
@@ -237,7 +391,11 @@ public class NoteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_note_editor, menu);
         favoriteMenuItem = menu.findItem(R.id.action_favorite);
+        pinMenuItem = menu.findItem(R.id.action_pin);
+        lockMenuItem = menu.findItem(R.id.action_lock);
         updateFavoriteIcon();
+        updatePinIcon();
+        updateLockIcon();
         return true;
     }
 
@@ -246,6 +404,8 @@ public class NoteActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_favorite) { toggleFavorite(); return true; }
         if (id == R.id.action_reminder) { showReminderPicker(); return true; }
+        if (id == R.id.action_pin) { togglePin(); return true; }
+        if (id == R.id.action_lock) { toggleLock(); return true; }
         if (id == R.id.action_share) { shareNote(); return true; }
         if (id == R.id.action_delete) { deleteNote(); return true; }
         if (id == android.R.id.home) { handleBack(); return true; }
