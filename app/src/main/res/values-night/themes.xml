@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme colors -->
+    <color name="md_theme_dark_primary">#818CF8</color>
+    <color name="md_theme_dark_onPrimary">#1E1B4B</color>
+    <color name="md_theme_dark_primaryContainer">#2D1B69</color>
+    <color name="md_theme_dark_onPrimaryContainer">#C4B5FD</color>
+
+    <color name="md_theme_dark_secondary">#A78BFA</color>
+    <color name="md_theme_dark_onSecondary">#2E1065</color>
+    <color name="md_theme_dark_secondaryContainer">#312E81</color>
+    <color name="md_theme_dark_onSecondaryContainer">#EDE9FE</color>
+
+    <color name="md_theme_dark_tertiary">#A5B4FC</color>
+
+    <!-- Surface Colors for Dark Theme -->
+    <color name="md_theme_dark_surface">#0F172A</color>
+    <color name="md_theme_dark_onSurface">#F1F5F9</color>
+    <color name="md_theme_dark_surfaceVariant">#1E293B</color>
+    <color name="md_theme_dark_onSurfaceVariant">#94A3B8</color>
+    <color name="md_theme_dark_surfaceTint">#818CF8</color>
+
+    <!-- Background Colors for Dark Theme -->
+    <color name="md_theme_dark_background">#0F172A</color>
+    <color name="md_theme_dark_onBackground">#F1F5F9</color>
+
+    <!-- Glassmorphism for Dark Theme -->
+    <color name="glassmorphism_overlay_dark">#10FFFFFF</color>
+    <color name="glassmorphism_border_dark">#20FFFFFF</color>
+
+    <!-- Dark Theme Override -->
+    <style name="Base.Theme.QuickNotes" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+
+        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_dark_onPrimary</item>
+
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+
+        <!-- Status Bar Configuration -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <!-- Edge to Edge -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+
+        <!-- Elevation Overlays -->
+        <item name="elevationOverlayEnabled">true</item>
+        <item name="elevationOverlayColor">@color/md_theme_dark_surfaceTint</item>
+
+        <!-- Ripple -->
+        <item name="colorControlHighlight">#1FFFFFFF</item>
+    </style>
+
+</resources>

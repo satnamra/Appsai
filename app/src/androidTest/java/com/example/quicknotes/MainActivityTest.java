@@ -1,0 +1,99 @@
+package com.example.quicknotes;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * UI tests for MainActivity — requires device/emulator.
+ * Runs after onboarding is marked done.
+ */
+@RunWith(AndroidJUnit4.class)
+public class MainActivityTest {
+
+    @Before
+    public void skipOnboarding() {
+        Context ctx = ApplicationProvider.getApplicationContext();
+        SharedPreferences prefs = ctx.getSharedPreferences("quicknotes_prefs",
+                Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("onboarding_done", true).apply();
+    }
+
+    @Rule
+    public ActivityScenarioRule<MainActivity> rule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
+    @Test
+    public void mainScreen_greetingVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.greetingText))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void mainScreen_fabVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void mainScreen_searchVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void mainScreen_settingsBtnVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.settingsBtn))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void mainScreen_shoppingBtnVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.shoppingBtn))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void fab_opensNoteActivity() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.titleEditText))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void searchField_filtersNotes() {
+        Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
+                .perform(ViewActions.typeText("xyznonexistent"),
+                         ViewActions.closeSoftKeyboard());
+        // Counter should show 0
+        Espresso.onView(ViewMatchers.withId(R.id.notesCounter))
+                .check(ViewAssertions.matches(ViewMatchers.withText("0")));
+    }
+
+    @Test
+    public void shoppingBtn_opensShoppingList() {
+        Espresso.onView(ViewMatchers.withId(R.id.shoppingBtn))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.shoppingInput))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void settingsBtn_opensSettings() {
+        Espresso.onView(ViewMatchers.withId(R.id.settingsBtn))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.themeRadioGroup))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+}

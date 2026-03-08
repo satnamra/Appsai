@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 Color Scheme - Deep Indigo/Violet Theme -->
+    
+    <!-- Primary Colors -->
+    <color name="seed">#4F46E5</color>
+    <color name="md_theme_light_primary">#4F46E5</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#E0E7FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#0F172A</color>
+    
+    <!-- Secondary Colors -->
+    <color name="md_theme_light_secondary">#7C3AED</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#EDE9FE</color>
+    <color name="md_theme_light_onSecondaryContainer">#1E1B4B</color>
+    
+    <!-- Tertiary Colors -->
+    <color name="md_theme_light_tertiary">#6366F1</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#E0E7FF</color>
+    <color name="md_theme_light_onTertiaryContainer">#312E81</color>
+    
+    <!-- Surface Colors -->
+    <color name="md_theme_light_surface">#FAFBFF</color>
+    <color name="md_theme_light_onSurface">#1E293B</color>
+    <color name="md_theme_light_surfaceVariant">#F1F5F9</color>
+    <color name="md_theme_light_onSurfaceVariant">#475569</color>
+    <color name="md_theme_light_surfaceTint">#4F46E5</color>
+    
+    <!-- Background Colors -->
+    <color name="md_theme_light_background">#FFFFFF</color>
+    <color name="md_theme_light_onBackground">#0F172A</color>
+    
+    <!-- Custom Gradient Colors -->
+    <color name="gradient_start">#6366F1</color>
+    <color name="gradient_center">#7C3AED</color>
+    <color name="gradient_end">#A855F7</color>
+    
+    <!-- Glassmorphism Overlay -->
+    <color name="glassmorphism_overlay">#10FFFFFF</color>
+    <color name="glassmorphism_border">#20FFFFFF</color>
+    
+    <!-- Accent Colors for Note Borders -->
+    <color name="accent_short">#10B981</color>
+    <color name="accent_medium">#3B82F6</color>
+    <color name="accent_long">#8B5CF6</color>
+    
+    <!-- System Colors -->
+    <color name="error">#EF4444</color>
+    <color name="errorContainer">#FEE2E2</color>
+    <color name="success">#10B981</color>
+    
+    <!-- Transparent -->
+    <color name="transparent">#00000000</color>
+    <color name="scrim">#66000000</color>
+    
+    <!-- Alias colors for layout compatibility -->
+    <color name="on_primary">@color/md_theme_light_onPrimary</color>
+    <color name="on_primary_container">@color/md_theme_light_onPrimaryContainer</color>
+    <color name="surface_variant">@color/md_theme_light_surfaceVariant</color>
+    
+</resources>
