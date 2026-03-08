@@ -1,7 +1,7 @@
 package com.example.quicknotes;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -17,18 +17,22 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ShoppingListTest {
 
-    @Before
-    public void setup() {
+    static Intent makeIntent() {
         Context ctx = ApplicationProvider.getApplicationContext();
         ctx.getSharedPreferences("quicknotes_prefs", Context.MODE_PRIVATE)
            .edit().putBoolean("onboarding_done", true).apply();
-        // Clear shopping items
-        NoteDatabase.getInstance(ctx).shoppingItemDao().deleteAll();
+        return new Intent(ctx, ShoppingListActivity.class);
     }
 
     @Rule
     public ActivityScenarioRule<ShoppingListActivity> rule =
-            new ActivityScenarioRule<>(ShoppingListActivity.class);
+            new ActivityScenarioRule<>(makeIntent());
+
+    @Before
+    public void clearData() {
+        Context ctx = ApplicationProvider.getApplicationContext();
+        NoteDatabase.getInstance(ctx).shoppingItemDao().deleteAll();
+    }
 
     @Test
     public void shoppingList_inputVisible() {
@@ -55,7 +59,6 @@ public class ShoppingListTest {
                          ViewActions.closeSoftKeyboard());
         Espresso.onView(ViewMatchers.withId(R.id.addItemBtn))
                 .perform(ViewActions.click());
-        // Item should appear in the RecyclerView
         Espresso.onView(ViewMatchers.withText("Milk"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
@@ -64,7 +67,6 @@ public class ShoppingListTest {
     public void shoppingList_emptyInput_doesNotAdd() {
         Espresso.onView(ViewMatchers.withId(R.id.addItemBtn))
                 .perform(ViewActions.click());
-        // RecyclerView should be empty
         Espresso.onView(ViewMatchers.withId(R.id.shoppingRecyclerView))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }

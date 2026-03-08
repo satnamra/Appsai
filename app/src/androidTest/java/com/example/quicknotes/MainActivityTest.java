@@ -1,7 +1,7 @@
 package com.example.quicknotes;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -9,29 +9,23 @@ import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/**
- * UI tests for MainActivity — requires device/emulator.
- * Runs after onboarding is marked done.
- */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
-    @Before
-    public void skipOnboarding() {
+    static Intent makeIntent() {
         Context ctx = ApplicationProvider.getApplicationContext();
-        SharedPreferences prefs = ctx.getSharedPreferences("quicknotes_prefs",
-                Context.MODE_PRIVATE);
-        prefs.edit().putBoolean("onboarding_done", true).apply();
+        ctx.getSharedPreferences("quicknotes_prefs", Context.MODE_PRIVATE)
+           .edit().putBoolean("onboarding_done", true).apply();
+        return new Intent(ctx, MainActivity.class);
     }
 
     @Rule
     public ActivityScenarioRule<MainActivity> rule =
-            new ActivityScenarioRule<>(MainActivity.class);
+            new ActivityScenarioRule<>(makeIntent());
 
     @Test
     public void mainScreen_greetingVisible() {
@@ -76,7 +70,6 @@ public class MainActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
                 .perform(ViewActions.typeText("xyznonexistent"),
                          ViewActions.closeSoftKeyboard());
-        // Counter should show 0
         Espresso.onView(ViewMatchers.withId(R.id.notesCounter))
                 .check(ViewAssertions.matches(ViewMatchers.withText("0")));
     }

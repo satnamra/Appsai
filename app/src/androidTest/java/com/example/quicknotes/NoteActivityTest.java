@@ -1,6 +1,7 @@
 package com.example.quicknotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
@@ -9,7 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,16 +18,16 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class NoteActivityTest {
 
-    @Before
-    public void setup() {
+    static Intent makeIntent() {
         Context ctx = ApplicationProvider.getApplicationContext();
         ctx.getSharedPreferences("quicknotes_prefs", Context.MODE_PRIVATE)
            .edit().putBoolean("onboarding_done", true).apply();
+        return new Intent(ctx, NoteActivity.class);
     }
 
     @Rule
     public ActivityScenarioRule<NoteActivity> rule =
-            new ActivityScenarioRule<>(NoteActivity.class);
+            new ActivityScenarioRule<>(makeIntent());
 
     @Test
     public void noteActivity_titleFieldVisible() {
