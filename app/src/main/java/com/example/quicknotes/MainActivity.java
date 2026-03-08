@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -93,10 +94,7 @@ public class MainActivity extends AppCompatActivity {
         }).attachToRecyclerView(recyclerView);
 
         ExtendedFloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NoteActivity.class)));
-
-        ImageButton shoppingBtn = findViewById(R.id.shoppingBtn);
-        shoppingBtn.setOnClickListener(v -> startActivity(new Intent(this, ShoppingListActivity.class)));
+        fab.setOnClickListener(v -> showNewItemSheet());
 
         ImageButton settingsBtn = findViewById(R.id.settingsBtn);
         settingsBtn.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
@@ -173,6 +171,20 @@ public class MainActivity extends AppCompatActivity {
             });
             tagFilterChips.addView(chip);
         }
+    }
+
+    private void showNewItemSheet() {
+        BottomSheetDialog sheet = new BottomSheetDialog(this);
+        sheet.setContentView(R.layout.bottom_sheet_new_item);
+        sheet.findViewById(R.id.cardNote).setOnClickListener(v -> {
+            sheet.dismiss();
+            startActivity(new Intent(this, NoteActivity.class));
+        });
+        sheet.findViewById(R.id.cardShopping).setOnClickListener(v -> {
+            sheet.dismiss();
+            startActivity(new Intent(this, ShoppingListActivity.class));
+        });
+        sheet.show();
     }
 
     @Override

@@ -52,14 +52,18 @@ public class MainActivityTest {
     }
 
     @Test
-    public void mainScreen_shoppingBtnVisible() {
-        Espresso.onView(ViewMatchers.withId(R.id.shoppingBtn))
+    public void fab_showsBottomSheet() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.cardNote))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     @Test
-    public void fab_opensNoteActivity() {
+    public void fab_noteCard_opensNoteActivity() {
         Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.cardNote))
                 .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.titleEditText))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
@@ -75,8 +79,10 @@ public class MainActivityTest {
     }
 
     @Test
-    public void shoppingBtn_opensShoppingList() {
-        Espresso.onView(ViewMatchers.withId(R.id.shoppingBtn))
+    public void fab_shoppingCard_opensShoppingList() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.cardShopping))
                 .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.shoppingInput))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
