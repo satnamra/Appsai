@@ -93,4 +93,72 @@ public class NoteActivityTest {
                 .check(ViewAssertions.matches(
                     ViewMatchers.withText(text.length() + " / 1000")));
     }
+
+    @Test
+    public void noteActivity_markdownToolbar_boldVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.btnBold))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void noteActivity_markdownToolbar_italicVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.btnItalic))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void noteActivity_markdownToolbar_headerVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.btnHeader))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void noteActivity_markdownToolbar_listVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.btnList))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void noteActivity_markdownToolbar_checkboxVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.btnCheckbox))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void noteActivity_boldButton_insertsBoldMarkdown() {
+        Espresso.onView(ViewMatchers.withId(R.id.contentEditText))
+                .perform(ViewActions.typeText("hello"),
+                         ViewActions.closeSoftKeyboard());
+        Espresso.onView(ViewMatchers.withId(R.id.btnBold))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.contentEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText(
+                    org.hamcrest.Matchers.containsString("**"))));
+    }
+
+    @Test
+    public void noteActivity_previewBtn_visible() {
+        Espresso.onView(ViewMatchers.withId(R.id.btnPreview))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void noteActivity_previewBtn_togglesPreview() {
+        Espresso.onView(ViewMatchers.withId(R.id.contentEditText))
+                .perform(ViewActions.typeText("**bold**"),
+                         ViewActions.closeSoftKeyboard());
+        Espresso.onView(ViewMatchers.withId(R.id.btnPreview))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.markdownPreview))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withId(R.id.contentEditText))
+                .check(ViewAssertions.matches(
+                    org.hamcrest.Matchers.not(ViewMatchers.isDisplayed())));
+    }
+
+    @Test
+    public void noteActivity_micButton_visible() {
+        Espresso.onView(ViewMatchers.withId(R.id.micButton))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 }

@@ -150,6 +150,62 @@ public class NoteDatabaseTest {
         assertEquals(9876543210L, saved.getReminderTime());
     }
 
+    @Test
+    public void pinnedNote_sortsFirst() {
+        noteDao.insert(new Note("Regular", "body", 1000L));
+        Note pinned = new Note("Pinned", "body", 999L); // older timestamp
+        pinned.setPinned(true);
+        noteDao.insert(pinned);
+        List<Note> notes = noteDao.getAllNotes();
+        assertTrue("Pinned note should be first", notes.get(0).isPinned());
+        assertEquals("Pinned", notes.get(0).getTitle());
+    }
+
+    @Test
+    public void pinnedNote_persistedCorrectly() {
+        Note n = new Note("Lock Test", "body", 1000L);
+        n.setPinned(true);
+        noteDao.insert(n);
+        Note saved = noteDao.getAllNotes().get(0);
+        assertTrue(saved.isPinned());
+    }
+
+    @Test
+    public void lockedNote_persistedCorrectly() {
+        Note n = new Note("Locked", "secret", 1000L);
+        n.setLocked(true);
+        n.setLockPin("1234");
+        noteDao.insert(n);
+        Note saved = noteDao.getAllNotes().get(0);
+        assertTrue(saved.isLocked());
+        assertEquals("1234", saved.getLockPin());
+    }
+
+    @Test
+    public void lockedNote_defaultUnlocked() {
+        noteDao.insert(new Note("Normal", "body", 1000L));
+        Note saved = noteDao.getAllNotes().get(0);
+        assertFalse(saved.isLocked());
+        assertEquals("", saved.getLockPin());
+    }
+
+    @Test
+    public void multiplePinnedNotes_sortBeforeUnpinned() {
+        noteDao.insert(new Note("A-Regular", "body", 3000L));
+        Note p1 = new Note("B-Pinned", "body", 2000L);
+        p1.setPinned(true);
+        noteDao.insert(p1);
+        Note p2 = new Note("C-PinnedFav", "body", 1000L);
+        p2.setPinned(true);
+        p2.setFavorite(true);
+        noteDao.insert(p2);
+        List<Note> notes = noteDao.getAllNotes();
+        // All pinned notes come before regular notes
+        assertTrue(notes.get(0).isPinned());
+        assertTrue(notes.get(1).isPinned());
+        assertFalse(notes.get(2).isPinned());
+    }
+
     // ── Shopping CRUD ──────────────────────────────────────────
 
     @Test

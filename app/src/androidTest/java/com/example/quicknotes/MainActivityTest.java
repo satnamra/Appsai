@@ -95,4 +95,55 @@ public class MainActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.themeRadioGroup))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
+    @Test
+    public void mainScreen_favoritesBtnVisible() {
+        Espresso.onView(ViewMatchers.withId(R.id.favoritesBtn))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void fab_showsTemplateCard() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.cardTemplate))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void fab_templateCard_opensTemplateSheet() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.cardTemplate))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.templateMeeting))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void fab_templateMeeting_opensNoteWithContent() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.cardTemplate))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.templateMeeting))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.titleEditText))
+                .check(ViewAssertions.matches(
+                    ViewMatchers.withText(org.hamcrest.Matchers.containsString("Meeting"))));
+    }
+
+    @Test
+    public void settingsScreen_hasNewThemeOptions() {
+        Espresso.onView(ViewMatchers.withId(R.id.settingsBtn))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.themeSteel))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withId(R.id.themeRose))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withId(R.id.themeBubblegum))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withId(R.id.themeOcean))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 }
