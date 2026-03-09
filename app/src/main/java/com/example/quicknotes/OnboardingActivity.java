@@ -16,12 +16,14 @@ public class OnboardingActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private MaterialButton btnNext;
     private TextView btnSkip;
+    private TextView pageCounter;
     private LinearLayout indicatorLayout;
     private ImageView[] dots;
-    private static final int PAGE_COUNT = 3;
+    private static final int PAGE_COUNT = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.apply(this);
         super.onCreate(savedInstanceState);
 
         SharedPreferences prefs = getSharedPreferences("quicknotes_prefs", MODE_PRIVATE);
@@ -36,24 +38,32 @@ public class OnboardingActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         btnNext = findViewById(R.id.btnNext);
         btnSkip = findViewById(R.id.btnSkip);
+        pageCounter = findViewById(R.id.pageCounter);
         indicatorLayout = findViewById(R.id.indicatorLayout);
 
         viewPager.setAdapter(new OnboardingAdapter());
         setupDots(0);
+        updateCounter(0);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 updateDots(position);
+                updateCounter(position);
                 if (position == PAGE_COUNT - 1) {
-                    btnNext.setText("Get Started");
+                    btnNext.setText("Get Started 🚀");
+                    btnNext.setIconResource(0); // remove arrow icon on last page
                     btnSkip.setVisibility(View.INVISIBLE);
                 } else {
                     btnNext.setText("Next");
+                    btnNext.setIconResource(R.drawable.ic_arrow_forward);
                     btnSkip.setVisibility(View.VISIBLE);
                 }
             }
         });
+
+        // Set initial icon
+        btnNext.setIconResource(R.drawable.ic_arrow_forward);
 
         btnNext.setOnClickListener(v -> {
             int current = viewPager.getCurrentItem();
@@ -67,11 +77,17 @@ public class OnboardingActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(v -> finishOnboarding());
     }
 
+    private void updateCounter(int position) {
+        if (pageCounter != null) {
+            pageCounter.setText((position + 1) + " / " + PAGE_COUNT);
+        }
+    }
+
     private void setupDots(int current) {
         indicatorLayout.removeAllViews();
         dots = new ImageView[PAGE_COUNT];
         int dpSize = (int) (8 * getResources().getDisplayMetrics().density);
-        int dpMargin = (int) (6 * getResources().getDisplayMetrics().density);
+        int dpMargin = (int) (5 * getResources().getDisplayMetrics().density);
 
         for (int i = 0; i < PAGE_COUNT; i++) {
             dots[i] = new ImageView(this);

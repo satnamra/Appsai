@@ -1,35 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="40dp">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/pageIcon"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:scaleType="fitCenter" />
+    <LinearLayout
+        android:id="@+id/pageRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="32dp">
 
-    <TextView
-        android:id="@+id/pageTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/md_theme_light_onBackground"
-        android:gravity="center" />
+        <!-- Illustration: emoji in a large colored circle -->
+        <FrameLayout
+            android:id="@+id/iconBg"
+            android:layout_width="180dp"
+            android:layout_height="180dp">
 
-    <TextView
-        android:id="@+id/pageSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="16sp"
-        android:textColor="@color/md_theme_light_onSurfaceVariant"
-        android:gravity="center"
-        android:lineSpacingMultiplier="1.4" />
+            <TextView
+                android:id="@+id/pageEmoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="72sp"
+                android:text="📝" />
 
-</LinearLayout>
+        </FrameLayout>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/pageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnBackground"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.1" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/pageSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="15sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.5" />
+
+        <!-- Feature bullets -->
+        <LinearLayout
+            android:id="@+id/featuresLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:orientation="vertical"
+            android:background="?attr/colorSurfaceVariant"
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="20dp">
+
+            <!-- Feature rows injected by adapter -->
+            <LinearLayout
+                android:id="@+id/feature1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="6dp">
+                <TextView
+                    android:id="@+id/feat1emoji"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/feat1text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/feature2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="6dp">
+                <TextView
+                    android:id="@+id/feat2emoji"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/feat2text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/feature3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="6dp">
+                <TextView
+                    android:id="@+id/feat3emoji"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/feat3text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
